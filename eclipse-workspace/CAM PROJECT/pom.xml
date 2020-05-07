@@ -1,5 +1,0 @@
-<dependency>
-  <groupId>org.seleniumhq.selenium</groupId>
-  <artifactId>selenium-firefox-driver</artifactId>
-  <version>3.X</version>
-</dependency>
