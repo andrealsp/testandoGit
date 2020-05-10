@@ -1,6 +1,7 @@
 package br.com.automacao;
 
-import java.util.Scanner;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
 
 public class Program {
 
@@ -8,19 +9,18 @@ public class Program {
 		// TODO Auto-generated method stub
 		Login login = new Login();
 		ConnectCAM connect = new ConnectCAM();
-		AccessOrderControl acessarOrdens = new AccessOrderControl();
-		Scanner sc = new Scanner(System.in);
+		AccessOrder acessarOrdens = new AccessOrder();
 
-		System.out.println("Informe seu login");
-		login.setLogin(sc.next());
+		System.setProperty("webdriver.chrome.driver", "C:\\WebDriver\\bin\\chrome\\chromedriver.exe");
+		WebDriver cam = new ChromeDriver();
 
-		System.out.println("Informe seu senha");
-		login.setSenha(sc.next());
+		login.getCredential();
 
-		connect.logar(login);
-		acessarOrdens.acessar();
-
-		sc.close();
+		connect.logar(login, cam);
+		acessarOrdens.acessar(cam);
+		acessarOrdens.searchOrders(cam);
+		acessarOrdens.acessarControle(cam);
+		acessarOrdens.acessarLinha("41998408836", cam);
 
 	}
 

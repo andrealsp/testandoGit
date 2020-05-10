@@ -2,6 +2,17 @@ package br.com.automacao;
 
 public class Login {
 	private String login;
+	private String senha;
+
+	public void getCredential() {
+
+		//login = JOptionPane.showInputDialog("Login:");
+		//senha = JOptionPane.showInputDialog("Senha:");
+		
+		login = "80658893";
+		senha = "Als@1829";
+
+	}
 
 	public String getLogin() {
 		return login;
@@ -18,7 +29,5 @@ public class Login {
 	public void setSenha(String senha) {
 		this.senha = senha;
 	}
-
-	private String senha;
 
 }
