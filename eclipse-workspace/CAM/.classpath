@@ -16,5 +16,7 @@
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="con" path="org.eclipse.datatools.connectivity.jdt.DRIVERLIBRARY/Other Driver Default"/>
+	<classpathentry kind="lib" path="C:/Users/andrelpereira/Downloads/ora-jdbc-8.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

@@ -1,4 +1,4 @@
-package br.com.automacao;
+package br.com.cam.automacao;
 
 public class Login {
 	private String login;

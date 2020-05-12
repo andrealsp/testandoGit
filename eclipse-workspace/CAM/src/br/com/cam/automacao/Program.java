@@ -1,4 +1,4 @@
-package br.com.automacao;
+package br.com.cam.automacao;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -19,8 +19,8 @@ public class Program {
 		connect.logar(login, cam);
 		acessarOrdens.acessar(cam);
 		acessarOrdens.searchOrders(cam);
-		acessarOrdens.acessarControle(cam);
-		acessarOrdens.acessarLinha("41998408836", cam);
+		acessarOrdens.acessarServPack(cam);
+		acessarOrdens.acessarLinha("11979959494", cam);
 
 	}
 

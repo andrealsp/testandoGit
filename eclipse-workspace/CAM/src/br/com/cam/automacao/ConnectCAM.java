@@ -1,4 +1,4 @@
-package br.com.automacao;
+package br.com.cam.automacao;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
