@@ -7,7 +7,11 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+
+// Classe Para acessar Canais onde estão as ordens
 public class AccessOrder {
+	
+	// Clica no botão Orders no CAM
 	public void acessar(WebDriver cam) {
 
 		cam.getCurrentUrl();
@@ -23,6 +27,7 @@ public class AccessOrder {
 
 	}
 
+	// Acessa o link de Search services Orders no CAM
 	public void searchOrders(WebDriver cam) {
 		// TODO Auto-generated method stub
 
@@ -40,7 +45,8 @@ public class AccessOrder {
 		cam.switchTo().defaultContent();
 
 	}
-
+	
+	// Acessa Canal Controle
 	public void acessarControle(WebDriver cam) {
 		// TODO Auto-generated method stub
 
@@ -62,6 +68,7 @@ public class AccessOrder {
 
 	}
 	
+	// Acessa Canal PostPaid
 	public void acessarPos(WebDriver cam) {
 		// TODO Auto-generated method stub
 
@@ -83,6 +90,7 @@ public class AccessOrder {
 
 	}
 	
+	// Acessa Canal ServPack
 	public void acessarServPack(WebDriver cam) {
 		// TODO Auto-generated method stub
 
@@ -104,6 +112,7 @@ public class AccessOrder {
 
 	}
 	
+	// Acessa Canal HabRemota
 	public void acessarHabRemota(WebDriver cam) {
 		// TODO Auto-generated method stub
 
@@ -125,6 +134,8 @@ public class AccessOrder {
 
 	}
 
+	// Pesquisa linha no CAM.
+	// A página de pesquisa é semelhante em todos os Canais.
 	public void acessarLinha(String linha, WebDriver cam) {
 		// TODO Auto-generated method stub
 

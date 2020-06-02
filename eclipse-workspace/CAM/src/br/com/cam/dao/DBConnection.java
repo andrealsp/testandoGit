@@ -7,10 +7,14 @@ package br.com.cam.dao;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.logging.Logger;
 
 //Início da classe de conexão//
 
 public class DBConnection {
+
+	//private static final Logger LOGGER = Logger.getLogger(DBConnection.class);
+	private static final DBConnection INSTANCE = new DBConnection();
 
 	public static String status = "Não conectou...";
 
@@ -22,7 +26,7 @@ public class DBConnection {
 
 //Método de Conexão//
 
-	public static java.sql.Connection getConexaoSQL() {
+	public static Connection getConexaoSQL() {
 
 		Connection connection = null; // atributo do tipo Connection
 
@@ -30,7 +34,7 @@ public class DBConnection {
 
 // Carregando o JDBC Driver padrão
 
-			String driverName = "com.mysql.jdbc.Driver";
+			String driverName = "oracle.jdbc.driver.OracleDriver";
 
 			Class.forName(driverName);
 
@@ -42,7 +46,7 @@ public class DBConnection {
 
 			String service = "SMS01DB";
 
-			String url = "jdbc:oracle:thin:@" + serverName + ":" + port + ":" + service;
+			String url = "jdbc:oracle:thin:@" + serverName + ":" + port + "/" + service;
 
 			String username = "sms01_usr"; // nome de um usuário de seu BD
 
@@ -116,6 +120,10 @@ public class DBConnection {
 
 		return DBConnection.getConexaoSQL();
 
+	}
+
+	public static DBConnection getInstance() {
+		return INSTANCE;
 	}
 
 }
