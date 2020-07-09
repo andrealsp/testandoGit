@@ -1,5 +1,6 @@
 package br.com.cam.automacao;
 
+// Classe para guardar credenciais de login no CAM
 public class Login {
 	private String login;
 	private String senha;
@@ -10,7 +11,7 @@ public class Login {
 		//senha = JOptionPane.showInputDialog("Senha:");
 		
 		login = "80658893";
-		senha = "Als@1829";
+		senha = "Als@1832";
 
 	}
 

@@ -4,8 +4,10 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
+// classe para conectar no CAM
 public class ConnectCAM {
 
+	// Método realiza conexão no CAM
 	public void logar(Login login, WebDriver cam) {
 
 		cam.get("http://localhost:9000/login.jsp");

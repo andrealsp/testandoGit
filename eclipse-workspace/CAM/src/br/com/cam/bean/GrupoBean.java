@@ -15,6 +15,24 @@ public class GrupoBean {
 	private String data;
 	private String service_order;
 
+	public GrupoBean(String cam_order, String linha, String canal, String acao, String status_ordem,
+			String processamento, String status_transacao, String acao_transacao, String erro, String ds_erro, String data, String service_order) {
+		// TODO Auto-generated constructor stub
+		super();
+		this.cam_ordem = cam_order;
+		this.linha = linha;
+		this.canal = canal;
+		this.acao = acao;
+		this.status_ordem = status_ordem;
+		this.processamento = processamento;
+		this.status_transacao = status_transacao;
+		this.acao_transacao = acao_transacao;
+		this.erro = erro;
+		this.ds_erro = ds_erro;
+		this.data = data;
+		this.service_order = service_order;
+	}
+	
 	// Método construtor com dados necessários extraídos da base NCAM
 	public GrupoBean(String cam_order, String linha, String canal, String acao, String status_ordem,
 			String processamento, String data, String service_order) {
