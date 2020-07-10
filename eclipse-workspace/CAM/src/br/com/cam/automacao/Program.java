@@ -17,10 +17,9 @@ public class Program {
 		login.getCredential();
 
 		connect.logar(login, cam);
-		acessarOrdens.acessar(cam);
+		//acessarOrdens.acessar(cam);
 		//acessarOrdens.searchOrders(cam);
-		acessarOrdens.acessarPos(cam);
-		acessarOrdens.acessarLinha("11979959494", cam);
+		///acessarOrdens.acessarLinha("11979959494", cam);
 
 	}
 

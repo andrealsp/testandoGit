@@ -15,29 +15,16 @@ import br.com.cam.automacao.ConnectCAM;
 import br.com.cam.automacao.Login;
 import br.com.cam.automacao.Ordem;
 import br.com.cam.bean.GrupoBean;
+import br.com.cam.controller.GerenciarOrdemController;
 
 public class GerenciarOrdemDAO {
 
-	public void gerenciarCAM() {
-
-		Login login = new Login();
-		ConnectCAM connect = new ConnectCAM();
-		GerenciarOrdem acessarOrdens = new GerenciarOrdem();
-
-		System.setProperty("webdriver.chrome.driver", "C:\\WebDriver\\bin\\chrome\\chromedriver.exe");
-		WebDriver cam = new ChromeDriver();
-
-		login.getCredential();
-
-		connect.logar(login, cam);
-
-	}
-
 	// Método Conecta com a base do CAM para extrair dados necessários para ativação
 	// da linha
-	public List<GrupoBean> buscaBaseNCAM(String linha) throws Exception {
+	public List<Ordem> buscaBaseNCAM(String linha) throws Exception {
 		List<GrupoBean> grupos = new ArrayList<GrupoBean>();
 		Connection con = null;
+		GerenciarOrdemDAO go = new GerenciarOrdemDAO();
 
 		con = DBConnection.getConexaoSQL();
 		Statement stmt = con.createStatement();
@@ -65,7 +52,7 @@ public class GerenciarOrdemDAO {
 		stmt.close();
 		con.close();
 
-		return grupos;
+		return go.buscarOrdens(grupos);
 
 	}
 
@@ -73,7 +60,7 @@ public class GerenciarOrdemDAO {
 	// para separar a ordem com falha, última ordem válida no Canal
 	// e possíveis ordens excecutadas no ServPack entre a ordem com falha e última
 	// ordem válida
-	public List<Ordem> buscarOrdens(List<GrupoBean> baseOrdens) {
+	private List<Ordem> buscarOrdens(List<GrupoBean> baseOrdens) {
 		// TODO Auto-generated method stub
 		List<Ordem> ordens = new ArrayList<Ordem>();
 
@@ -137,54 +124,32 @@ public class GerenciarOrdemDAO {
 
 	}
 
-	public void gerenciarOrdens(List<Ordem> ordens, String linha, WebDriver cam) {
+	// inicia e gerencia interações com a aplicação do CAM
+	public boolean gerenciarCAM(Ordem ordem, String linha) {
 
-		int ultimaPosicao = ordens.size() - 1;
+		boolean bol;
+		Login login = new Login();
+		ConnectCAM connect = new ConnectCAM();
+		GerenciarOrdemController goc = new GerenciarOrdemController();
 
-		GerenciarOrdemDAO go = new GerenciarOrdemDAO();
+		System.setProperty("webdriver.chrome.driver", "C:\\WebDriver\\bin\\chrome\\chromedriver.exe");
+		WebDriver cam = new ChromeDriver();
 
-		// cenário 1 - Canal da Ultima ordem valida é diferente do Canal da ordem com
-		// falha
-		// Migração de pós para controle ou controle para pós
-		if (ordens.get(ultimaPosicao).getCanal() != ordens.get(0).getCanal()) {
+		login.getCredential();
 
-			boolean bol = go.ativarOrdem(ordens.get(0), linha, cam);
+		connect.logar(login, cam);
+		goc.acessar(cam);
+		goc.acessarCanal(ordem, cam);
+		goc.acessarLinha(linha, cam);
 
-			if (bol == true) {
-				System.out.println("Linha ativada pela ordem pendente. Efetuar Skip_step do passo "
-						+ ordens.get(0).getPasso() + "para a ordem " + ordens.get(0).getOrdem());
-			} else {
-				System.out.println("Ativação no CAM apresentou falha. Verificar erro no CAM.");
-			}
-			
-		}
-		
-		else {
-			boolean bol = go.ativarOrdem(ordens.get(ultimaPosicao), linha, cam);
-			
-			if (bol == true) {
-
-				if (ordens.get(ultimaPosicao-1).getAcao().equals("suspend")) {
-					
-					
-					
-				}
-				
-				
-			} else {
-				System.out.println("Ativação no CAM apresentou falha. Verificar erro no CAM.");
-			}
-			
+		if (ordem.getCanal().equals("ServPack")) {
+			bol = goc.acessarTransacaoOrdem(ordem, cam);
+		} else {
+			bol = goc.acessarOrderAction(ordem, cam);
 		}
 
+		return bol;
+
 	}
-
-	private boolean ativarOrdem(Ordem ordem, String linha, WebDriver cam) {
-		// TODO Auto-generated method stub
-
-		return true;
-	}
-
-	// ativa uma linha por uma ordem de suspensão e reenvia a suspensão pelo CAM
 
 }
