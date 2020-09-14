@@ -1,0 +1,20 @@
+[2020-07-13 16:40:09,948 CleanMain] INFO : 
+
+ CleanNGIN - 11944871503
+[2020-07-13 16:40:14,876 NGIN] INFO : Limpeza executada com sucesso - Você está sendo monitorado!
+[2020-07-13 16:40:14,876 NGIN] INFO : 1
+[2020-07-13 16:40:14,876 NGIN] INFO : Executando removesdp [-] spawn /home/core/batimento/sdp/remove_sdp [-] Entre o msisdn >>11944871503 [-]  [-] MSISDN			PF	SDP		DB_NAME [-] 11944871503		103	tjsdp24		SDP5B [-]  [-] Entre o msisdn >> [-] Delete Base A OK! [-] 
+[2020-07-13 16:40:14,876 CleanMain] INFO : 
+
+ CleanSDP - 11944871503
+[2020-07-13 16:40:19,194 SDP] INFO : Remoção da linha nos SDPs enviado com sucesso - Você está sendo monitorado!
+[2020-07-13 16:40:19,194 SDP] INFO : 1
+[2020-07-13 16:40:19,194 SDP] INFO :  [-] spawn /home/core/batimento/sdp/remove_sdp [-] Entre o msisdn >>11944871503 [-]  [-] MSISDN			PF	SDP		DB_NAME [-] 11944871503		103	tjsdp24		SDP5B [-]  [-] Entre o msisdn >> [-] spawn /home/core/batimento/sdp/remove_shared [-] Entre o msisdn >>11944871503 [-]  [-] MSISDN			PF	SDP		DB_NAME [-] 11944871503		68	sdsdp11		 [-]  [-] Entre o msisdn >> [-] 
+[2020-07-13 16:40:19,195 CleanMain] INFO : 
+
+ CleanNGIN - 123
+[2020-07-13 16:40:19,566 NGIN] ERROR : com.sun.xml.internal.ws.fault.ServerSOAPFaultException: Client received SOAP Fault from server: MSISDN deve ser informado com 11 caracteres EX: 11222223333 Please see the server log to find more detail regarding exact cause of the failure.
+[2020-07-13 16:40:19,566 CleanMain] INFO : 
+
+ CleanSDP - 123
+[2020-07-13 16:40:20,118 SDP] ERROR : com.sun.xml.internal.ws.fault.ServerSOAPFaultException: Client received SOAP Fault from server: MSISDN deve ser informado com 11 caracteres EX: 11222223333 Please see the server log to find more detail regarding exact cause of the failure.

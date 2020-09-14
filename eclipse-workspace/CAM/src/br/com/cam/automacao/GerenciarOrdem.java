@@ -18,20 +18,25 @@ public class GerenciarOrdem {
 		// cenário 1 - Canal da Ultima ordem valida é diferente do Canal da ordem com
 		// falha
 		// Migração de pós para controle ou controle para pós
-		if (ordens.get(ultimaPosicao).getCanal() != ordens.get(0).getCanal() && !ordens.get(0).getCanal().equals("ServPack")) {
+		if (ordens.get(ultimaPosicao).getCanal() != ordens.get(0).getCanal()
+				&& !ordens.get(0).getCanal().equals("ServPack")) {
 
 			boolean bol = go.gerenciarCAM(ordens.get(0), linha);
 
 			if (bol == true) {
+				
 				System.out.println("Linha ativada pela ordem pendente. Efetuar Skip_step do passo "
 						+ ordens.get(0).getPasso() + " para a ordem " + ordens.get(0).getOrdem());
-
+				
 				chamarAPI = "skip";
-
+				
 			} else {
+				
 				System.out.println("Ativação no CAM apresentou falha. Verificar erro no CAM.");
+				
 			}
 
+			
 		}
 
 		// cenário 2 - Canal da Ultima ordem valida é igual do Canal da ordem com
@@ -57,10 +62,12 @@ public class GerenciarOrdem {
 
 					}
 
+					chamarAPI = "soma";
+					
 				}
 
 				// confirma se ordens intermediárias são ServPack
-				if (ordens.get(ultimaPosicao - 1).getAcao().equals("ServPack")) {
+				else if (ordens.get(ultimaPosicao - 1).getAcao().equals("ServPack")) {
 
 					for (int i = ultimaPosicao - 1; i > 0; i--) {
 
@@ -72,17 +79,26 @@ public class GerenciarOrdem {
 
 					}
 
+					chamarAPI = "soma";
+				}
+				
+				else if(ordens.get(ultimaPosicao - 1).getCanal().equals(ordens.get(0).getCanal())) {
+					
+					chamarAPI = "skip";
+					
 				}
 
-				chamarAPI = "soma";
 
 			} else {
+				
 				System.out.println("Ativação no CAM apresentou falha. Verificar erro no CAM.");
+				
 			}
 
 		}
 
 		return chamarAPI;
+		
 	}
 
 }

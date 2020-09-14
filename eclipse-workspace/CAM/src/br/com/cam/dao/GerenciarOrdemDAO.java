@@ -1,6 +1,5 @@
 package br.com.cam.dao;
 
-import java.security.acl.LastOwnerException;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
@@ -10,7 +9,6 @@ import java.util.List;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 
-import br.com.cam.automacao.GerenciarOrdem;
 import br.com.cam.automacao.ConnectCAM;
 import br.com.cam.automacao.Login;
 import br.com.cam.automacao.Ordem;
@@ -76,7 +74,7 @@ public class GerenciarOrdemDAO {
 						String[] stg = st[1].split("-");
 
 						ordens.add(new Ordem(st[2], stg[2], string.getCanal(), string.getStatus_ordem(),
-								string.getAcao(), string.getErro()));
+								string.getAcao()));
 					}
 
 				}
@@ -88,7 +86,7 @@ public class GerenciarOrdemDAO {
 						String[] stg = st[1].split("-");
 
 						ordens.add(new Ordem(st[2], stg[2], string.getCanal(), string.getStatus_ordem(),
-								string.getAcao(), string.getErro()));
+								string.getAcao()));
 
 					}
 
@@ -99,7 +97,7 @@ public class GerenciarOrdemDAO {
 							String[] stg = st[1].split("-");
 
 							ordens.add(new Ordem(st[2], stg[2], string.getCanal(), string.getStatus_ordem(),
-									string.getAcao(), string.getErro()));
+									string.getAcao()));
 
 						}
 						if (string.getAcao().equals("change") || string.getAcao().equals("reinstate")
@@ -109,7 +107,7 @@ public class GerenciarOrdemDAO {
 							String[] stg = st[1].split("-");
 
 							ordens.add(new Ordem(st[2], stg[2], string.getCanal(), string.getStatus_ordem(),
-									string.getAcao(), string.getErro()));
+									string.getAcao()));
 
 							break;
 						}

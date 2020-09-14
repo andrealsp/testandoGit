@@ -158,8 +158,8 @@ public class GerenciarOrdemController {
 
 				cam.switchTo().alert().accept();
 
-				// botão de refresh
-				cam.findElement(By.xpath("/html/body/table[5]/tbody/tr/td[2]/button"));
+				new WebDriverWait(cam, 20).until(ExpectedConditions
+						.elementToBeClickable(By.xpath("/html/body/table[10]/tbody/tr[1]/td[1]/input")));
 
 				cam.close();
 
@@ -188,116 +188,191 @@ public class GerenciarOrdemController {
 		new WebDriverWait(cam, 2).until(
 				ExpectedConditions.elementToBeClickable(By.xpath("/html/body/table[5]/tbody/tr/td[2]/button/img")));
 
-		WebElement ordemCAM;
-
 		String passoOrdem = ordem.getPasso() + "_" + ordem.getOrdem();
 
-		for (int i = 2; i <= 11; i++) {
 
-			ordemCAM = cam.findElement(By.xpath("/html/body/table[7]/tbody/tr[" + i + "]/td[9]/p"));
+		// pega quantidade de linhas no CAM na pagina para a linha
+		String string = cam.findElement(By.xpath("/html/body/table[2]/tbody/tr/td[3]/font")).getText();
 
-			String st = ordemCAM.getText();
+		String[] stg1 = string.split(" ");
+		int j = Integer.parseInt(stg1[2]);
 
-			if (st.contains(passoOrdem)) {
+		for (int i = 2; i <= j; i++) {
+
+			String stg = cam.findElement(By.xpath("/html/body/table[7]/tbody/tr[" + i + "]/td[9]/p")).getText();
+
+			if (stg.contains(passoOrdem)) {
 
 				WebElement orderAction = cam
 						.findElement(By.xpath("/html/body/table[7]/tbody/tr[" + i + "]/td[2]/a[3]/img"));
 
-				orderAction.click();
+				bol = goc.clicarOrderAciton(orderAction, ordem, cam);
+				
+				break;
 
-				cam.getCurrentUrl();
+			}
 
-				new WebDriverWait(cam, 2).until(ExpectedConditions.elementToBeClickable(
-						By.xpath("/html/body/table[1]/tbody/tr[3]/td/table/tbody/tr[2]/td[3]/p/input[6]")));
+			else {
 
-				if (ordem.getAcao().equals("activate") || ordem.getAcao().equals("change")
-						|| ordem.getAcao().equals("reinstate")) {
-
-					WebElement orderActionList = cam.findElement(
-							By.xpath("/html/body/table[1]/tbody/tr[3]/td/table/tbody/tr[2]/td[1]/p/select/option[1]"));
-
-					orderActionList.click();
-
-					WebElement submit = cam.findElement(
-							By.xpath("/html/body/table[1]/tbody/tr[3]/td/table/tbody/tr[2]/td[3]/p/input[6]"));
-
-					submit.click();
-
-					cam.switchTo().defaultContent();
-
-					goc.acessarOrderEntry(ordem, cam);
-
-					new WebDriverWait(cam, 2).until(ExpectedConditions
-							.elementToBeClickable(By.xpath("/html/body/table[5]/tbody/tr/td[2]/button")));
-
-					if (cam.findElement(By.xpath("/html/body/table[7]/tbody/tr[2]/td[6]/p/font")).getText()
-							.equals("Successful")) {
-
-						bol = true;
-
-					} else {
-						bol = false;
-					}
-
-					cam.close();
-				}
-				if (ordem.getAcao().equals("suspend")) {
-
-					WebElement orderActionList = cam.findElement(
-							By.xpath("/html/body/table[1]/tbody/tr[3]/td/table/tbody/tr[2]/td[1]/p/select/option[4]"));
-
-					orderActionList.click();
-
-					WebElement submit = cam.findElement(
-							By.xpath("/html/body/table[1]/tbody/tr[3]/td/table/tbody/tr[2]/td[3]/p/input[6]"));
-
-					submit.click();
-
-					cam.switchTo().defaultContent();
-
-					goc.acessarOrderEntry(ordem, cam);
-
-					new WebDriverWait(cam, 2).until(ExpectedConditions
-							.elementToBeClickable(By.xpath("/html/body/table[5]/tbody/tr/td[2]/button")));
-
-					if (cam.findElement(By.xpath("/html/body/table[7]/tbody/tr[2]/td[6]/p/font")).getText()
-							.equals("Successful")) {
-
-						bol = true;
-
-					} else {
-						bol = false;
-					}
-
-					cam.close();
-
-					bol = true;
-				}
-
-				else {
-					System.out.println("Ação de ordem não mapeada para tratativa.");
-
-					bol = false;
-				}
+				bol = false;
+				
 
 			}
 
 		}
 
 		return bol;
+	}
 
+	private boolean clicarOrderAciton(WebElement orderAction, Ordem ordem, WebDriver cam) {
+		// TODO Auto-generated method stub
+
+		GerenciarOrdemController goc = new GerenciarOrdemController();
+
+		boolean bol;
+
+		orderAction.click();
+
+		cam.getCurrentUrl();
+
+		new WebDriverWait(cam, 2).until(ExpectedConditions.elementToBeClickable(
+				By.xpath("/html/body/table[1]/tbody/tr[3]/td/table/tbody/tr[2]/td[3]/p/input[6]")));
+
+		if (ordem.getAcao().equals("activate") || ordem.getAcao().equals("change")
+				|| ordem.getAcao().equals("reinstate")) {
+
+			goc.escolherAcaoList("Activate", cam);
+
+			cam.switchTo().defaultContent();
+
+			goc.acessarOrderEntry(ordem, cam);
+
+			cam.getCurrentUrl();
+
+			cam.switchTo().frame("main");
+
+			new WebDriverWait(cam, 2).until(
+					ExpectedConditions.elementToBeClickable(By.xpath("/html/body/table[5]/tbody/tr/td[2]/button/img")));
+
+			bol = goc.validaOrderStatus(cam);
+
+			cam.close();
+		}
+
+		else if (ordem.getAcao().equals("suspend")) {
+
+			goc.escolherAcaoList("suspend", cam);
+
+			cam.switchTo().defaultContent();
+
+			goc.acessarOrderEntry(ordem, cam);
+
+			cam.getCurrentUrl();
+
+			cam.switchTo().frame("main");
+
+			new WebDriverWait(cam, 2).until(
+					ExpectedConditions.elementToBeClickable(By.xpath("/html/body/table[5]/tbody/tr/td[2]/button/img")));
+
+			bol = goc.validaOrderStatus(cam);
+
+			cam.close();
+
+		}
+
+		else {
+			System.out.println("Ação de ordem não mapeada para tratativa.");
+
+			bol = false;
+		}
+
+		return bol;
+	}
+
+	private boolean validaOrderStatus(WebDriver cam) {
+		// TODO Auto-generated method stub
+		// botão de refresh
+		boolean bol;
+
+		WebElement botaoRefresh = cam.findElement(By.xpath("/html/body/table[5]/tbody/tr/td[2]/button/img"));
+
+		botaoRefresh.click();
+
+		cam.getCurrentUrl();
+
+		new WebDriverWait(cam, 2).until(
+				ExpectedConditions.elementToBeClickable(By.xpath("/html/body/table[7]/tbody/tr[2]/td[6]/p/font")));
+
+		while (cam.findElement(By.xpath("/html/body/table[7]/tbody/tr[2]/td[6]/p/font")).getText().equals("Pending")) {
+
+			cam.getCurrentUrl();
+
+			new WebDriverWait(cam, 2).until(
+					ExpectedConditions.elementToBeClickable(By.xpath("/html/body/table[7]/tbody/tr[2]/td[6]/p/font")));
+
+			botaoRefresh = cam.findElement(By.xpath("/html/body/table[5]/tbody/tr/td[2]/button/img"));
+
+			botaoRefresh.click();
+
+		}
+
+		if (cam.findElement(By.xpath("/html/body/table[7]/tbody/tr[2]/td[6]/p/font")).getText().equals("Successful")) {
+
+			bol = true;
+
+		}
+
+		else {
+			bol = false;
+		}
+
+		return bol;
+	}
+
+	private void escolherAcaoList(String acao, WebDriver cam) {
+		// TODO Auto-generated method stub
+		WebElement orderActionList;
+
+		if (acao.equals("Activate")) {
+
+			orderActionList = cam.findElement(
+					By.xpath("/html/body/table[1]/tbody/tr[3]/td/table/tbody/tr[2]/td[1]/p/select/option[1]"));
+
+			orderActionList.click();
+
+			WebElement submit = cam
+					.findElement(By.xpath("/html/body/table[1]/tbody/tr[3]/td/table/tbody/tr[2]/td[3]/p/input[6]"));
+
+			submit.click();
+
+		}
+
+		if (acao.equals("Suspend")) {
+
+			orderActionList = cam.findElement(
+					By.xpath("/html/body/table[1]/tbody/tr[3]/td/table/tbody/tr[2]/td[1]/p/select/option[4]"));
+
+			orderActionList.click();
+
+			WebElement submit = cam
+					.findElement(By.xpath("/html/body/table[1]/tbody/tr[3]/td/table/tbody/tr[2]/td[3]/p/input[6]"));
+
+			submit.click();
+		}
 	}
 
 	// Clica no botao OK de OrderEntry no CAM
 	private void acessarOrderEntry(Ordem ordem, WebDriver cam) {
 		// TODO Auto-generated method stub
-
+		
 		cam.getCurrentUrl();
 
 		cam.switchTo().frame("main");
 
 		new WebDriverWait(cam, 2).until(ExpectedConditions.elementToBeClickable(
 				By.xpath("/html/body/form/table/tbody/tr[4]/td/table/tbody/tr[26]/td/table/tbody/tr/td[1]/input")));
+		
+		System.out.println("VOCÊ CHEGOU NO ORDER ENTRY");
 
 		WebElement botaoOK = cam.findElement(
 				By.xpath("/html/body/form/table/tbody/tr[4]/td/table/tbody/tr[26]/td/table/tbody/tr/td[1]/input"));
